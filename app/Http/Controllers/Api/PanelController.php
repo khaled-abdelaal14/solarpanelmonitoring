@@ -17,12 +17,12 @@ class PanelController extends Controller
     public function index(Request $request)
     {
        
-         $iddevice=User::find($request->user_id)->device()->first()->id;
-         $panels=Panel::where('device_id',$iddevice)->with('panelReadings')->get();
-         return response()->json(['panels'=>$panels],200);
-        // $iddevice=User::find(auth()->user()->id)->device()->first()->id;
-        // $panels=Panel::where('device_id',$iddevice)->with('panelReadings')->get();
-        // return response()->json(['panels'=>$panels],200);
+        //  $iddevice=User::find($request->user_id)->device()->first()->id;
+        //  $panels=Panel::where('device_id',$iddevice)->with('panelReadings')->get();
+        //  return response()->json(['panels'=>$panels],200);
+        $iddevice=User::find(auth()->user()->id)->device()->first()->id;
+        $panels=Panel::where('device_id',$iddevice)->with('panelReadings')->get();
+        return response()->json(['panels'=>$panels],200);
         // return PanelResource::collection(Panel::select('id','model','capacity','status')->get());
     }
 
