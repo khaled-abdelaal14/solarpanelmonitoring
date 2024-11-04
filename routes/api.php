@@ -40,7 +40,7 @@ Route::middleware('auth:user')->group(function(){
     Route::get('battery',[BatteryController::class,'index']);
     Route::get('battery/energyreading',[BatteryController::class,'energyreading']);
     Route::get('sensor',[SensorController::class,'index']);
-    Route::post('panel',[PanelController::class,'index']);
+    Route::get('panel',[PanelController::class,'index']);
     Route::get('panel/energyreading',[PanelController::class,'energyreading']);
     Route::get('subdevices',[SubdeviceController::class,'index']);
     Route::post('subdevices/calcenergy',[SubdeviceController::class,'calcSubdeviceEnergy']);

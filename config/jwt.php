@@ -121,7 +121,8 @@ return [
     |
     */
 
-    'refresh_ttl' => env('JWT_REFRESH_TTL', 20160),
+    // 'refresh_ttl' => env('JWT_REFRESH_TTL', 20160),
+    'refresh_ttl' => 60 * 24 * 360,
 
     /*
     |--------------------------------------------------------------------------
