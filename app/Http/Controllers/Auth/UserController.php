@@ -23,11 +23,20 @@ class UserController extends Controller
         ]);
         $credentials = $request->only('email', 'password');
         
+        $user=User::where('email',$credentials['email'])->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'البريد الإلكتروني غير صحيح',
+            ], 401);
+        }
+
         $token = Auth::attempt($credentials);
         if (!$token) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Unauthorized',
+                'message' => 'كلمة المرور غير صحيحة',
             ], 401);
         }
 
