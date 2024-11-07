@@ -13,6 +13,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth:user', ['except' => ['login','register']]);
+
     }
 
     public function login(Request $request)
@@ -97,4 +98,5 @@ class UserController extends Controller
             ]
         ]);
     }
+
 }

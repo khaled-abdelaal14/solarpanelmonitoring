@@ -18,7 +18,7 @@ class CreateDevicesTable extends Migration
             $table->string('serial_number')->unique();
             $table->enum('status',['on','off'])->default('off');
             $table->string('ip_address')->nullable();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->unique();
 
             $table->timestamps();
         });

@@ -60,4 +60,7 @@ class User extends Authenticatable implements JWTSubject
     public function device(){
         return $this->hasOne(Device::class);
     }
+    public function admin(){
+        return $this->belongsTo(Admin::class);
+    }
 }
