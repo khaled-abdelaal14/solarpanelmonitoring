@@ -62,7 +62,7 @@
                       </div>
                       <div class="form-group col-6">
                         <label for="email">Email*</label>
-                        <input style="background-color: #666666" type="email" @if($subadmindata->id !="") disabled="" @else required @endif  class="form-control" value="{{$subadmindata->email ?? ""}}"  id="email" name="email" placeholder="email">
+                        <input style="background-color: #d4d4d4" type="email" @if($subadmindata->id !="") disabled="" @else required @endif  class="form-control" value="{{$subadmindata->email ?? ""}}"  id="email" name="email" placeholder="email">
                       </div>
                     
                       <div class="form-group col-6">

@@ -52,15 +52,15 @@
                       <td>
                      
                         @if($adminsModule['edit_access']==1 || $adminsModule['full_access']==1)
-                         <a style='color:#3f6ed3'; href="{{url('admin/add-edit-admin',$admin->id)}}"> <i class="fas fa-edit"></i></a>
+                         <a style='color:#4586ff'; href="{{url('admin/add-edit-admin',$admin->id)}}"> <i class="fas fa-edit"></i></a>
                          &nbsp;&nbsp;
                          @endif
                          @if($adminsModule['full_access']==1)
-                         <a class="confirmdelete" name="subadmin" title="Delete admin" style='color:#3f6ed3'; href="javascript:void{0}" record="admin" recordid={{$admin->id}} <?php /* href="{{url('admin/delete-subadmin',$subadmin->id)}}" */ ?>> <i class="fas fa-trash"></i></a>
+                         <a class="confirmdelete" name="subadmin" title="Delete admin" style='color:#4586ff'; href="javascript:void{0}" record="admin" recordid={{$admin->id}} <?php /* href="{{url('admin/delete-subadmin',$subadmin->id)}}" */ ?>> <i class="fas fa-trash"></i></a>
                         &nbsp;&nbsp;
                         @endif
                         @if($adminsModule['full_access']==1)
-                        <a style='color:#3f6ed3'; href="{{url('admin/update-role',$admin->id)}}"> <i class="fas fa-unlock"></i></a>
+                        <a style='color:#4586ff'; href="{{url('admin/update-role',$admin->id)}}"> <i class="fas fa-unlock"></i></a>
                         @endif
                       </td>
                     </tr>

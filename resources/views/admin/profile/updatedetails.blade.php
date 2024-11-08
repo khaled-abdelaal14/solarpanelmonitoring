@@ -46,7 +46,7 @@
           <div class="form-group row">
             <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Email</label>
             <div class="col-sm-9">
-              <input type="email" name="email" value="{{Auth::guard('admin')->user()->email}}" class="form-control" id="exampleInputEmail2" placeholder="Email">
+              <input style="background-color: #d4d4d4" type="email" name="email" value="{{Auth::guard('admin')->user()->email}}" class="form-control" id="exampleInputEmail2" placeholder="Email">
             </div>
           </div>
           <div class="form-group row">

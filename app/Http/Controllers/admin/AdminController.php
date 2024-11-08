@@ -149,19 +149,24 @@ class AdminController extends Controller
         }
         if($request->isMethod('post')){
             if($id==""){
-                $subadminemail=Admin::where('email',$request->email)->count();
-                if($subadminemail > 0){
-                    return redirect()->back()->with('error_message','subadmin email exists!');
+                $rules=[
 
-                }
+                    'email' => 'required|email|max:255|unique:admins,email,'.$id,
+                    'name'=>'required',
+                    'phone'=>'required|numeric|digits:11|unique:admins,phone,'.$id,
+                    'image'=> 'mimes:jpeg,jpg,png,gif|max:1000',
+                ];
             }
-            $rules=[
-                'email' => 'required|email|max:255|unique:admins,email,'.$id,
-
-                'name'=>'required',
-                'phone'=>'required|numeric|digits:11|unique:admins,phone,'.$id,
-                'image'=> 'mimes:jpeg,jpg,png,gif|max:1000',
-            ];
+            else{
+                $rules=[
+                    'name'=>'required',
+                    'phone'=> 'required|numeric|digits:11|unique:admins,phone,'.$id,
+                    'image'=> 'mimes:jpeg,jpg,png,gif|max:1000',
+                ];
+            }
+            
+            
+           
             $custommessage=[
                 'email.required'=>'Email is required',
                 'email.email'=>'Email valid!',
@@ -295,14 +300,16 @@ class AdminController extends Controller
                 }
             }
             $rules=[
-                
+                'email' => 'required|email|max:255|unique:admins,email,'.$id,
                 'name'=>'required',
                 'phone'=> 'required|numeric|digits:11|unique:users,phone,'.$id,
                 
            
             ];
             $custommessage=[
-              
+                'email.required'=>'Email is required',
+                'email.email'=>'Email valid!',
+                'email.unique'=>'Email exists',
                 'name.required'=>'name is required',
                 'phone.required'=>'mobile is required',
                 'phone.numeric'=>' valid mobile is required',

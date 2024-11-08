@@ -47,12 +47,12 @@
                      
                         @if($devicesModule['edit_access']==1 || $devicesModule['full_access']==1)
 
-                        <a style='color:#3f6ed3'; href="{{url('admin/add-edit-device',$device->id)}}"> <i class="fas fa-edit"></i></a>
+                        <a style='color:#4586ff'; href="{{url('admin/add-edit-device',$device->id)}}"> <i class="fas fa-edit"></i></a>
                          &nbsp;&nbsp;
                         @endif
 
                         @if($devicesModule['full_access']==1)
-                         <a class="confirmdelete" name="device" title="Delete device" style='color:#3f6ed3'; href="javascript:void{0}" record="device" recordid={{$device->id}} <?php /* href="{{url('admin/delete-device',$device->id)}}" */ ?>> <i class="fas fa-trash"></i></a>
+                         <a class="confirmdelete" name="device" title="Delete device" style='color:#4586ff'; href="javascript:void{0}" record="device" recordid={{$device->id}} <?php /* href="{{url('admin/delete-device',$device->id)}}" */ ?>> <i class="fas fa-trash"></i></a>
                        @endif
                         </td>
                     </tr>

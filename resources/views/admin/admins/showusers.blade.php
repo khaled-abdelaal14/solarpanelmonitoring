@@ -46,12 +46,12 @@
                       <td>{{date("F j, Y, g:i a", strtotime($user->created_at));}}</td>
                       <td>
                         @if($usersModule['edit_access']==1 || $usersModule['full_access']==1)
-                        <a style='color:#3f6ed3'; href="{{url('admin/add-edit-user',$user->id)}}"> <i class="fas fa-edit"></i></a>
+                        <a style='color:#4586ff'; href="{{url('admin/add-edit-user',$user->id)}}"> <i class="fas fa-edit"></i></a>
                          &nbsp;&nbsp;
                         @endif
 
                         @if($usersModule['full_access']==1)
-                         <a class="confirmdelete" name="user" title="Delete user" style='color:#3f6ed3'; href="javascript:void{0}" record="user" recordid={{$user->id}} <?php /* href="{{url('user/delete-user',$subuser->id)}}" */ ?>> <i class="fas fa-trash"></i></a>
+                         <a class="confirmdelete" name="user" title="Delete user" style='color:#4586ff'; href="javascript:void{0}" record="user" recordid={{$user->id}} <?php /* href="{{url('user/delete-user',$subuser->id)}}" */ ?>> <i class="fas fa-trash"></i></a>
                         @endif
                         </td>
                     </tr>
