@@ -15,7 +15,7 @@ class CreateBatteryReadingsTable extends Migration
     {
         Schema::create('battery_readings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('battery_id')->constrained('batteries');
+            $table->foreignId('battery_id')->constrained('batteries')->cascadeOnDelete()->cascadeOnUpdate();
             $table->float('energy_stored');
             $table->float('charge_level');
             

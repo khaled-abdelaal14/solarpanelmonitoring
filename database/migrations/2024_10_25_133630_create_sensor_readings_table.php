@@ -15,7 +15,7 @@ class CreateSensorReadingsTable extends Migration
     {
         Schema::create('sensor_readings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sensor_id')->constrained('sensors');
+            $table->foreignId('sensor_id')->constrained('sensors')->cascadeOnDelete()->cascadeOnUpdate();
             $table->float('value');
             $table->timestamps();
         });

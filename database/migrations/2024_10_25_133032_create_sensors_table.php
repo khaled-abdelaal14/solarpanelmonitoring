@@ -17,7 +17,7 @@ class CreateSensorsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('type');
-            $table->foreignId('device_id')->constrained()->onDelete('cascade');
+            $table->foreignId('device_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

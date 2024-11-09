@@ -18,7 +18,7 @@ class CreatePanelsTable extends Migration
             $table->string('model');
             $table->float('capacity');
             $table->enum('status', ['0', '1'])->default('1');
-            $table->foreignId('device_id')->constrained('devices');
+            $table->foreignId('device_id')->constrained('devices')-> onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

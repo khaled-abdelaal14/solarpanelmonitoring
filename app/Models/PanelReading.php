@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class PanelReading extends Model
 {
     use HasFactory;
-    public function panelReadings(){
-        return $this->hasMany(PanelReading::class);
+    protected $guarded=[];
+    public function panel(){
+        return $this->belongsTo(Battery::class);
     }
 }

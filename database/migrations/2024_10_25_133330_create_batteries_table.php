@@ -17,8 +17,10 @@ class CreateBatteriesTable extends Migration
             $table->id();
             $table->string('serial_number')->unique();
             $table->float('capacity');
-            $table->foreignId('device_id')->constrained('devices');
+            $table->foreignId('device_id')->constrained('devices')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
+            
+
         });
     }
 

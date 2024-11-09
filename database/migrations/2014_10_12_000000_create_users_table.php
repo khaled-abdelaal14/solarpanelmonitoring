@@ -22,7 +22,8 @@ class CreateUsersTable extends Migration
             $table->text('fcm_token')->nullable();          
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignId('admin_id')->constrained('admins');
+            $table->foreignId('admin_id')->nullable()->constrained('admins')->onDelete('set null')->onUpdate('cascade'); 
+
             $table->rememberToken();
             $table->timestamps();
         });

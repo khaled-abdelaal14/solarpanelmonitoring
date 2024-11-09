@@ -15,7 +15,7 @@ class CreatePanelReadingsTable extends Migration
     {
         Schema::create('panel_readings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('panel_id')->constrained('panels');
+            $table->foreignId('panel_id')->constrained('panels')->cascadeOnDelete()->cascadeOnUpdate();
             $table->float('energy_stored');
             $table->timestamps();
         });
