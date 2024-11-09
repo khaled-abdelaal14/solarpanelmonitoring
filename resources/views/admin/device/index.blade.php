@@ -39,7 +39,7 @@
                       <td>#</td>
                       <td>{{$device->serial_number }}</td>
                       <td>{{$device->status}}</td>
-                      <td>{{$device->user->name ?? "This User Deleted" }}</td>
+                      <td>{{$device->user->name ?? "This Owner Deleted" }}</td>
                     
 
                       <td>{{date("F j, Y, g:i a", strtotime($device->created_at));}}</td>
