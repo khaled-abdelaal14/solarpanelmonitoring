@@ -153,6 +153,7 @@ class AdminController extends Controller
 
                     'email' => 'required|email|max:255|unique:admins,email,'.$id,
                     'name'=>'required',
+                    'city' => 'required|string|max:100',
                     'phone'=>'required|numeric|digits:11|unique:admins,phone,'.$id,
                     'image'=> 'mimes:jpeg,jpg,png,gif|max:1000',
                 ];
@@ -160,6 +161,7 @@ class AdminController extends Controller
             else{
                 $rules=[
                     'name'=>'required',
+                    'city' => 'required|string|max:100',
                     'phone'=> 'required|numeric|digits:11|unique:admins,phone,'.$id,
                     'image'=> 'mimes:jpeg,jpg,png,gif|max:1000',
                 ];
@@ -302,6 +304,7 @@ class AdminController extends Controller
             $rules=[
                 'email' => 'required|email|max:255|unique:admins,email,'.$id,
                 'name'=>'required',
+                'city' => 'required|string|max:100',
                 'phone'=> 'required|numeric|digits:11|unique:users,phone,'.$id,
                 
            
