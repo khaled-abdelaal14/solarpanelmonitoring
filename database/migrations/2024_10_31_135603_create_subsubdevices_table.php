@@ -17,7 +17,7 @@ class CreateSubsubdevicesTable extends Migration
             $table->id();
             $table->string('name');             
             $table->integer('watt_per_hour'); // معدل الطاقة المستهلك
-            $table->foreignId('subsubdeviceid')->references('id')->on('subdevices')->cascadeOnDelete();
+            $table->foreignId('subdevice_id')->references('id')->on('subdevices')->cascadeOnDelete();
             $table->timestamps();
         });
     }

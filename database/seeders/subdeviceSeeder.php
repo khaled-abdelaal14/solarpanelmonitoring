@@ -65,26 +65,26 @@ class subdeviceSeeder extends Seeder
             $microwaveId = SubDevice::where('name', 'Microwave')->first()->id;
 
             $subSubDevices = [
-                ['name' => 'Smart LED TV', 'watt_per_hour' => 80, 'subsubdeviceid' => $televisionId],
-                ['name' => '4K LED TV', 'watt_per_hour' => 150, 'subsubdeviceid' => $televisionId],
-                ['name' => 'OLED TV', 'watt_per_hour' => 120, 'subsubdeviceid' => $televisionId],
+                ['name' => 'Smart LED TV', 'watt_per_hour' => 80, 'subdevice_id' => $televisionId],
+                ['name' => '4K LED TV', 'watt_per_hour' => 150, 'subdevice_id' => $televisionId],
+                ['name' => 'OLED TV', 'watt_per_hour' => 120, 'subdevice_id' => $televisionId],
     
-                ['name' => 'Single Door Refrigerator', 'watt_per_hour' => 100, 'subsubdeviceid' => $refrigeratorId],
-                ['name' => 'Double Door Refrigerator', 'watt_per_hour' => 180, 'subsubdeviceid' => $refrigeratorId],
-                ['name' => 'Mini Fridge', 'watt_per_hour' => 70, 'subsubdeviceid' => $refrigeratorId],
+                ['name' => 'Single Door Refrigerator', 'watt_per_hour' => 100, 'subdevice_id' => $refrigeratorId],
+                ['name' => 'Double Door Refrigerator', 'watt_per_hour' => 180, 'subdevice_id' => $refrigeratorId],
+                ['name' => 'Mini Fridge', 'watt_per_hour' => 70, 'subdevice_id' => $refrigeratorId],
     
-                ['name' => '1 Ton AC', 'watt_per_hour' => 1500, 'subsubdeviceid' => $airConditionerId],
-                ['name' => '1.5 Ton AC', 'watt_per_hour' => 2000, 'subsubdeviceid' => $airConditionerId],
-                ['name' => '2 Ton AC', 'watt_per_hour' => 2500, 'subsubdeviceid' => $airConditionerId],
+                ['name' => '1 Ton AC', 'watt_per_hour' => 1500, 'subdevice_id' => $airConditionerId],
+                ['name' => '1.5 Ton AC', 'watt_per_hour' => 2000, 'subdevice_id' => $airConditionerId],
+                ['name' => '2 Ton AC', 'watt_per_hour' => 2500, 'subdevice_id' => $airConditionerId],
     
-                ['name' => 'Front Load Washing Machine', 'watt_per_hour' => 450, 'subsubdeviceid' => $washingMachineId],
-                ['name' => 'Top Load Washing Machine', 'watt_per_hour' => 500, 'subsubdeviceid' => $washingMachineId],
+                ['name' => 'Front Load Washing Machine', 'watt_per_hour' => 450, 'subdevice_id' => $washingMachineId],
+                ['name' => 'Top Load Washing Machine', 'watt_per_hour' => 500, 'subdevice_id' => $washingMachineId],
     
-                ['name' => 'Gaming Laptop', 'watt_per_hour' => 80, 'subsubdeviceid' => $laptopId],
-                ['name' => 'Business Laptop', 'watt_per_hour' => 45, 'subsubdeviceid' => $laptopId],
+                ['name' => 'Gaming Laptop', 'watt_per_hour' => 80, 'subdevice_id' => $laptopId],
+                ['name' => 'Business Laptop', 'watt_per_hour' => 45, 'subdevice_id' => $laptopId],
     
-                ['name' => 'Convection Microwave', 'watt_per_hour' => 1200, 'subsubdeviceid' => $microwaveId],
-                ['name' => 'Grill Microwave', 'watt_per_hour' => 1000, 'subsubdeviceid' => $microwaveId],
+                ['name' => 'Convection Microwave', 'watt_per_hour' => 1200, 'subdevice_id' => $microwaveId],
+                ['name' => 'Grill Microwave', 'watt_per_hour' => 1000, 'subdevice_id' => $microwaveId],
             ];
 
             foreach ($subSubDevices as $subSubDevice) {
