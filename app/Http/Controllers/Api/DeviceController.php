@@ -19,7 +19,7 @@ class DeviceController extends Controller
 
     public function toggleDeviceStatus(Request $request, $serial_number){
  
-        if($request->status=='off'){
+        if($request->status=="off"){
             $status='on';
             $message = 'Device turned on and notified IoT';
         }else{

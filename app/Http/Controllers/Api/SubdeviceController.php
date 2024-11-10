@@ -22,7 +22,20 @@ class SubdeviceController extends Controller
             'subsubdevice_id' => 'required|integer',
             'quantity' => 'required|integer|min:1',
         ]);
-        $device = Subsubdevice::where('id', $request->subsubdevice_id)->first();
+
+        if($request->subsubdevicename){
+            $device=Subsubdevice::create([
+                'name'=>$request->subsubdevicename,
+                'watt_per_hour'=>$request->watt_per_hour,
+                'subdevice_id'=>$request->subdevice_id,
+            ]);
+            $message='SubSubdevice added successfully and reading calculated';
+        }
+        else{
+            $device = Subsubdevice::where('id', $request->subsubdevice_id)->first();
+            $message='SubSubdevice reading calculated successfully';
+        }
+        
 
         if (!$device) {
             return response()->json('error', 'الجهاز غير موجود في  .');
@@ -43,6 +56,7 @@ class SubdeviceController extends Controller
         $usedEnergy = ($percentageUsed / 100) * $lastReading->energy_stored;
 
         return response()->json([
+            'message' => $message,
             'total_consumption_per_hour' => $totalconsumptionperHour . '  كيلو واط',
             'battery_energy' => $lastReading->energy_stored . ' كيلوواط/ساعة',
             'percentage_used' => number_format($percentageUsed, 2) . '%',

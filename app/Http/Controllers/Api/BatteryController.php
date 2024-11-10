@@ -24,7 +24,7 @@ class BatteryController extends Controller
                         ->first();
         
                         
-         //average today               
+         // today               
         $day = now()->startOfDay();
         $today = BatteryReading::where('battery_id', $batteryid)
                     ->where('created_at', '>=', $day)
