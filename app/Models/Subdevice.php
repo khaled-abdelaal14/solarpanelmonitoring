@@ -10,6 +10,6 @@ class Subdevice extends Model
     use HasFactory;
     protected $guarded =[]; 
     public function subsubdevices(){
-        return $this->hasMany(Subsubdevice::class,'subsubdeviceid');
+        return $this->hasMany(Subsubdevice::class,'subdevice_id');
     }
 }
