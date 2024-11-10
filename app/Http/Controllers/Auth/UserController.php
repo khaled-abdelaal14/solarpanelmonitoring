@@ -64,11 +64,12 @@ class UserController extends Controller
 
         $user = User::create([
             'name' => $request->name,
+            'phone' => "01030410355",
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'city' => $request->city,
-            'phone' => $request->phone,
             
+            'city' => $request->city,
+
         ]);
 
         $token = Auth::login($user);
