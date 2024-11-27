@@ -37,8 +37,13 @@ Route::prefix('auth')->group(function () {
 
 Route::middleware('auth:user')->group(function(){
     Route::get('device',[DeviceController::class,'index']);
+    // battery
     Route::get('battery',[BatteryController::class,'index']);
     Route::get('battery/energyreading',[BatteryController::class,'energyreading']);
+    Route::get('battery/energyreadingtoday',[BatteryController::class,'energyreadingtoday']);
+    Route::get('battery/energyreadingweek',[BatteryController::class,'energyreadingweek']);
+    Route::get('battery/energyreadingmonth',[BatteryController::class,'energyreadingmonth']);
+    //
     Route::get('sensor',[SensorController::class,'index']);
     Route::get('panel',[PanelController::class,'index']);
     Route::get('panel/energyreading',[PanelController::class,'energyreading']);
@@ -63,6 +68,7 @@ Route::post('/addintent', [ChatController::class, 'addIntent']);
 
 //chat gemeni
 Route::post('/askk', [ChatController::class, 'askQuestion']);
+
 
 
 

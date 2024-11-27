@@ -56,5 +56,41 @@ class BatteryController extends Controller
          
         
     }
+
+    public function energyreadingtoday()
+    {
+        $iddevice=User::find(auth()->user()->id)->device()->first()->id;
+        $batteryid = Battery::where('device_id', $iddevice)->pluck('id')->first();
+        $day = now()->startOfDay();
+        $today = BatteryReading::where('battery_id', $batteryid)
+                    ->where('created_at', '>=', $day)
+                    ->get();
+        return response()->json(['today'=>$today],200);
+    }
+
+    public function energyreadingweek()
+    {
+        $iddevice=User::find(auth()->user()->id)->device()->first()->id;
+        $batteryid = Battery::where('device_id', $iddevice)->pluck('id')->first();
+        $weekStart = now()->startOfWeek();
+        $weekEnd = now()->endOfWeek();
+        $thisweek = BatteryReading::where('battery_id', $batteryid)
+                ->whereBetween('created_at', [$weekStart, $weekEnd])
+                ->get();
+        return response()->json(['thisweek'=>$thisweek],200);
+    }
+    
+    public function energyreadingmonth()
+    {
+        $iddevice=User::find(auth()->user()->id)->device()->first()->id;
+        $batteryid = Battery::where('device_id', $iddevice)->pluck('id')->first();
+        $monthStart = now()->startOfMonth();
+        $monthEnd = now()->endOfMonth();
+        $thismonth = BatteryReading::where('battery_id', $batteryid)
+                    ->whereBetween('created_at', [$monthStart, $monthEnd])
+                    ->get();
+        return response()->json(['thismonth'=>$thismonth],200);
+    }
+
     
 }

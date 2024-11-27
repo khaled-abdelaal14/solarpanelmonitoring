@@ -68,10 +68,18 @@
               <form class="pt-3" action="{{route('login.admin')}}" method="POST" >
                 @csrf
                 <div class="form-group">
-                  <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
+                  <input type="email" name="email" class="form-control form-control-lg"
+                  @if(isset($_COOKIE["email"])) value="{{$_COOKIE["email"]}}" @endif id="exampleInputEmail1" placeholder="Email">
                 </div>
                 <div class="form-group">
-                  <input type="password" name="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
+                  <input type="password" name="password" class="form-control form-control-lg"
+                  @if(isset($_COOKIE["email"])) value="{{$_COOKIE["password"]}}" @endif id="exampleInputPassword1" placeholder="Password">
+                </div>
+                <div class="mt-9">
+                  <input  type="checkbox" id="remember" name="remember" @if(isset($_COOKIE["email"])) checked @endif>
+                  <label  for="remember">
+                    Remember Me
+                  </label>
                 </div>
                 <div class="mt-3">
                     <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>

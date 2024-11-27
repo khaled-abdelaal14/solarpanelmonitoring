@@ -28,7 +28,13 @@ class LoginController extends Controller
             ];
             $this->validate($request,$rules,$custommessage);
             if(Auth::guard('admin')->attempt(['email'=>$request->email ,'password'=>$request->password])){
-            
+                if(isset($request->remember)&& !empty($request->remember)){
+                    setcookie("email",$request->email,time()+3600);
+                    setcookie("password",$request->password,time()+3600);
+                }else{
+                    setcookie("email","");
+                    setcookie("password","");
+                }
                 Session::regenerateToken();
                 return redirect()->intended(RouteServiceProvider::ADMIN);
             }else{

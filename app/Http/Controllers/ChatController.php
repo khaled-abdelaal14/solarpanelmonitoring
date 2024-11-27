@@ -140,6 +140,7 @@ class ChatController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+    
     public function ask1()
     {
         $client = new gemeniclient(env('GEMINI_API_KEY'));
@@ -150,6 +151,8 @@ class ChatController extends Controller
         
         print_r($response->text()) ;
     }
+
+
  public function askQuestion(Request $request)
     {
         $client = new gemeniclient(env('GEMINI_API_KEY'));
