@@ -3,10 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Battery;
+use App\Models\BatteryReading;
 use App\Models\Device;
+use App\Models\Panel;
+use App\Models\PanelReading;
 use App\Models\Sensor;
+use App\Models\SensorReading;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class DeviceController extends Controller
@@ -17,7 +23,7 @@ class DeviceController extends Controller
         return response()->json(['device'=>$device],200);
     }
 
-    public function toggleDeviceStatus(Request $request, $serial_number){
+    public function toggleDeviceStatus(Request $request){
  
         if($request->status=="off"){
             $status='on';
@@ -28,26 +34,100 @@ class DeviceController extends Controller
 
         }
 
-        $device = Device::where('serial_number', $serial_number)->first();
+        $device = Device::where('serial_number', $request->serial_number)->first();
         if ($device) {
             $device->status = $status;
             $device->save();
 
-    
-            $iotEndpoint = 'http://esp32-device-endpoint/command'; 
-            $response = Http::post($iotEndpoint, [
-                'serial_number' => $serial_number,
-                'action' => $status
-            ]);
-
-            // التحقق من الاستجابة وإرجاع النتيجة إلى تطبيق Flutter
-            if ($response->successful()) {
-                return response()->json(['message' => $message]);
-            } else {
-                return response()->json(['message' => 'Failed to notify IoT'], 500);
-            }
+            return response()->json(['message' => $message], 200);
         }
 
         return response()->json(['message' => 'Device not found'], 404);
     }
+
+    public function store(Request $request){
+        $serial_number = $request->serial_number;
+        $device = Device::where('serial_number', $serial_number)->pluck('id')->first();
+        if(!$device){
+            return response()->json(['message' => 'Device not found'], 404);
+        }
+        try{
+            DB::beginTransaction();
+
+            Device::where('serial_number', $serial_number)->update([
+                'status' => 'on'
+            ]);
+
+            //sensor
+            $sensor=Sensor::create([
+                'name' => $request->sensorname,
+                'type' => $request->sensortype,
+                'device_id' => $device
+            ]);
+            $senorReadings=SensorReading::create([
+                'sensor_id' => $sensor->id,
+                'value' => $request->sensorvalue
+            ]);
+
+            // battery
+            $battery = Battery::create([
+                'serial_number' => $request->battery_serial_number,
+                'capacity' => $request->battery_capacity,
+                'device_id' => $device
+            ]);
+            $batteryReading = BatteryReading::create([
+                'battery_id' => $battery->id,
+                'energy_stored' => $request->battery_energy_stored,
+                'charge_level' => $request->battery_charge_level,
+            ]);
+
+            //panel
+            $panel = Panel::create([
+                'serial_number' => $request->panel_model,
+                'capacity' => $request->panel_capacity,
+                'status' => 1,
+                'device_id' => $device
+            ]);
+            $panelReading = PanelReading::create([
+                'panel_id' => $panel->id,
+                'energy_stored' => $request->panel_energy_produced,
+
+            ]);
+
+            DB::commit();
+            return response()->json(['message' => 'Stored successfully'], 200);
+
+            
+
+        }catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['message' => 'Failed to store '], 500);
+        }
+
+        //
+
+    }
+    // $data=[
+    //     "serial_number": "12345",
+    //     "sensorname": "Temperature Sensor",
+    //     "sensortype": "temperature",
+    //     "sensorvalue": "35",
+    //     "battery_serial_number": "BAT001",
+    //     "battery_capacity": "2000",
+    //     "battery_energy_stored": "1500",
+    //     "battery_charge_level": "75",
+    //     "panel_model": "PNL001",
+    //     "panel_capacity": "300",
+    //     "panel_energy_produced": "250"
+    // ];
+
+    public function DeviceStatus($serial_number){
+        $device = Device::where('serial_number', $serial_number)->first();
+        if ($device) {
+            return response()->json(['status' => $device->status]);
+        }
+        return response()->json(['message' => 'Device not found'], 404);
+    }
+
+    
 }

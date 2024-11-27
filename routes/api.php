@@ -37,6 +37,7 @@ Route::prefix('auth')->group(function () {
 
 Route::middleware('auth:user')->group(function(){
     Route::get('device',[DeviceController::class,'index']);
+    Route::post('device/toggle',[DeviceController::class,'toggleDeviceStatus']);
     // battery
     Route::get('battery',[BatteryController::class,'index']);
     Route::get('battery/energyreading',[BatteryController::class,'energyreading']);
@@ -53,6 +54,9 @@ Route::middleware('auth:user')->group(function(){
 });
 
 });
+
+Route::post('/store',[DeviceController::class,'store']);
+Route::get('/device/status/{serial_number}',[DeviceController::class,'DeviceStatus']);
 
 Route::get('/panels',[PanelController::class,'index']);
 Route::post('/panels',[PanelController::class,'store']);
