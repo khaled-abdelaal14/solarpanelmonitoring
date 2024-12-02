@@ -129,7 +129,8 @@ class AdminController extends Controller
             $adminsModule['view_access']=1;
             $adminsModule['edit_access']=1;
             $adminsModule['full_access']=1;
-        }elseif($adminModulecount==0){
+        }elseif($adminModulecount==0 || AdminRole::where(['admin_id'=> Auth::guard('admin')->user()
+        ->id,'module'=>'admins','full_access'=>0])->count()==1){
             $message="This Feature Is Restricted For You!";
             return redirect('admin/dashboard')->with('error_message',$message);
         }else{
@@ -276,7 +277,8 @@ class AdminController extends Controller
             $usersModule['view_access']=1;
             $usersModule['edit_access']=1;
             $usersModule['full_access']=1;
-        }elseif($userModulecount==0){
+        }elseif($userModulecount==0 || AdminRole::where(['admin_id'=> Auth::guard('admin')->user()
+        ->id,'module'=>'users','full_access'=>0])->count()==1){
             $message="This Feature Is Restricted For You!";
             return redirect('admin/dashboard')->with('error_message',$message);
         }else{
@@ -385,7 +387,8 @@ class AdminController extends Controller
             $devicesModule['view_access']=1;
             $devicesModule['edit_access']=1;
             $devicesModule['full_access']=1;
-        }elseif($deviceModulecount==0){
+        }elseif($deviceModulecount==0 || AdminRole::where(['admin_id'=> Auth::guard('admin')->user()
+        ->id,'module'=>'devices','full_access'=>0])->count()==1){
             $message="This Feature Is Restricted For You!";
             return redirect('admin/dashboard')->with('error_message',$message);
         }else{
