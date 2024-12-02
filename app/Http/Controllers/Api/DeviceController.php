@@ -59,18 +59,19 @@ class DeviceController extends Controller
             ]);
 
             //sensor
-            $sensor=Sensor::create([
+            $sensor = Sensor::updateorCreate([
                 'name' => $request->sensorname,
                 'type' => $request->sensortype,
                 'device_id' => $device
             ]);
+           
             $senorReadings=SensorReading::create([
                 'sensor_id' => $sensor->id,
                 'value' => $request->sensorvalue
             ]);
 
             // battery
-            $battery = Battery::create([
+            $battery = Battery::updateorCreate([
                 'serial_number' => $request->battery_serial_number,
                 'capacity' => $request->battery_capacity,
                 'device_id' => $device
@@ -82,7 +83,7 @@ class DeviceController extends Controller
             ]);
 
             //panel
-            $panel = Panel::create([
+            $panel = Panel::updateorCreate([
                 'serial_number' => $request->panel_model,
                 'capacity' => $request->panel_capacity,
                 'status' => 1,
@@ -107,6 +108,8 @@ class DeviceController extends Controller
         //
 
     }
+
+    
     // $data=[
     //     "serial_number": "12345",
     //     "sensorname": "Temperature Sensor",

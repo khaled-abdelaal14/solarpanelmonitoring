@@ -63,7 +63,7 @@
 
        
             <div class="panel" id="admin">
-              <h4> Sing in Admin</h4>
+
 
               <form class="pt-3" action="{{route('login.admin')}}" method="POST" >
                 @csrf
