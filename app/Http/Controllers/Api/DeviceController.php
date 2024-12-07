@@ -18,19 +18,27 @@ use Illuminate\Support\Facades\Http;
 class DeviceController extends Controller
 {
     public function index(){
-        $device=User::find(auth()->user()->id)->device()->get();
+        $user = User::find(auth()->user()->id);
+        $device = $user->device()->first();
+
+        if ($device) {
+            return response()->json(['device'=>$device],200);
+            
+        } else {
+            return response()->json(['error' => 'المستخدم ليس لديه جهاز '], 404);
+        }
   
-        return response()->json(['device'=>$device],200);
+        
     }
 
     public function toggleDeviceStatus(Request $request){
  
         if($request->status=="off"){
-            $status='on';
-            $message = 'Device turned on and notified IoT';
-        }else{
             $status='off';
             $message = 'Device turned off and notified IoT';
+        }else{
+            $status='on';
+            $message = 'Device turned on and notified IoT';
 
         }
 

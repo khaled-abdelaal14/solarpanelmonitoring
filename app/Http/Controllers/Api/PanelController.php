@@ -20,8 +20,20 @@ class PanelController extends Controller
         //  $iddevice=User::find($request->user_id)->device()->first()->id;
         //  $panels=Panel::where('device_id',$iddevice)->with('panelReadings')->get();
         //  return response()->json(['panels'=>$panels],200);
-        $iddevice=User::find(auth()->user()->id)->device()->first()->id;
+        $user = User::find(auth()->user()->id);
+        $device = $user->device()->first();
+
+        if ($device) {
+            $iddevice = $device->id;
+            
+        } else {
+            return response()->json(['error' => 'المستخدم ليس لديه جهاز  '], 404);
+        }
+
         $panels=Panel::where('device_id',$iddevice)->with('panelReadings')->get();
+        if($panels->isEmpty()){
+            return response()->json(['error' => 'الجهاز ليس لديه قراءات للالواح '], 404);
+        }
         return response()->json(['panels'=>$panels],200);
         // return PanelResource::collection(Panel::select('id','model','capacity','status')->get());
     }
@@ -61,8 +73,21 @@ class PanelController extends Controller
 
     public function energyreading()
     {
-        $iddevice=User::find(auth()->user()->id)->device()->first()->id;
+        $user = User::find(auth()->user()->id);
+        $device = $user->device()->first();
+
+        if ($device) {
+            $iddevice = $device->id;
+            
+        } else {
+            return response()->json(['error' => 'المستخدم ليس لديه جهاز  '], 404);
+        }
+
         $panelid = Panel::where('device_id', $iddevice)->pluck('id')->first();
+        if(!$panelid){
+            return response()->json(['error' => 'الجهاز ليس لديه قراءات للالواح '], 404);
+        }
+
         $lastReading = PanelReading::where('panel_id', $panelid)
                         ->orderBy('created_at', 'desc')
                         ->first();

@@ -11,14 +11,41 @@ use Illuminate\Http\Request;
 class BatteryController extends Controller
 {
     public function index(){
-        $iddevice=User::find(auth()->user()->id)->device()->first()->id;
+        $user = User::find(auth()->user()->id);
+        $device = $user->device()->first();
+
+        if ($device) {
+            $iddevice = $device->id;
+            
+        } else {
+            return response()->json(['error' => 'المستخدم ليس لديه جهاز  '], 404);
+        }
+        
         $batteries=Battery::where('device_id',$iddevice)->with('batteryReadings')->get();
-        return response()->json(['baterries'=>$batteries],200);
+        if($batteries->isEmpty()){
+            return response()->json(['error' => 'الجهاز ليس لديه قراءات للبطارية '], 404);
+        }else{
+            return response()->json(['batteries'=>$batteries],200);
+        }
+       
     }
     public function energyreading()
     {
-        $iddevice=User::find(auth()->user()->id)->device()->first()->id;
+        $user = User::find(auth()->user()->id);
+        $device = $user->device()->first();
+
+        if ($device) {
+            $iddevice = $device->id;
+            
+        } else {
+            return response()->json(['error' => 'المستخدم ليس لديه جهاز  '], 404);
+        }
+
         $batteryid = Battery::where('device_id', $iddevice)->pluck('id')->first();
+        if(!$batteryid){
+            return response()->json(['error' => 'الجهاز ليس لديه بطارية '], 404);
+        }
+
         $lastReading = BatteryReading::where('battery_id', $batteryid)
                         ->orderBy('created_at', 'desc')
                         ->first();
@@ -59,8 +86,22 @@ class BatteryController extends Controller
 
     public function energyreadingtoday()
     {
-        $iddevice=User::find(auth()->user()->id)->device()->first()->id;
+        $user = User::find(auth()->user()->id);
+        $device = $user->device()->first();
+
+        if ($device) {
+            $iddevice = $device->id;
+            
+        } else {
+            return response()->json(['error' => 'المستخدم ليس لديه جهاز  '], 404);
+        }
+
         $batteryid = Battery::where('device_id', $iddevice)->pluck('id')->first();
+        if(!$batteryid){
+            return response()->json(['error' => 'الجهاز ليس لديه بطارية '], 404);
+        }
+
+
         $day = now()->startOfDay();
         $today = BatteryReading::where('battery_id', $batteryid)
                     ->where('created_at', '>=', $day)
@@ -70,8 +111,21 @@ class BatteryController extends Controller
 
     public function energyreadingweek()
     {
-        $iddevice=User::find(auth()->user()->id)->device()->first()->id;
+        $user = User::find(auth()->user()->id);
+        $device = $user->device()->first();
+
+        if ($device) {
+            $iddevice = $device->id;
+            
+        } else {
+            return response()->json(['error' => 'المستخدم ليس لديه جهاز  '], 404);
+        }
+
         $batteryid = Battery::where('device_id', $iddevice)->pluck('id')->first();
+        if(!$batteryid){
+            return response()->json(['error' => 'الجهاز ليس لديه بطارية '], 404);
+        }
+        
         $weekStart = now()->startOfWeek();
         $weekEnd = now()->endOfWeek();
         $thisweek = BatteryReading::where('battery_id', $batteryid)
@@ -82,8 +136,21 @@ class BatteryController extends Controller
     
     public function energyreadingmonth()
     {
-        $iddevice=User::find(auth()->user()->id)->device()->first()->id;
+        $user = User::find(auth()->user()->id);
+        $device = $user->device()->first();
+
+        if ($device) {
+            $iddevice = $device->id;
+            
+        } else {
+            return response()->json(['error' => 'المستخدم ليس لديه جهاز  '], 404);
+        }
+
         $batteryid = Battery::where('device_id', $iddevice)->pluck('id')->first();
+        if(!$batteryid){
+            return response()->json(['error' => 'الجهاز ليس لديه بطارية '], 404);
+        }
+        
         $monthStart = now()->startOfMonth();
         $monthEnd = now()->endOfMonth();
         $thismonth = BatteryReading::where('battery_id', $batteryid)
