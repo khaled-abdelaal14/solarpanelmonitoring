@@ -338,6 +338,7 @@ class AdminController extends Controller
                 $subadmindata->password=bcrypt('password');
             }
             if($request->password != null){
+                $subadmindata->email=$request->email;
                 $subadmindata->password=bcrypt($request->password);
             }
             $subadmindata->save();
