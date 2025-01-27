@@ -4,6 +4,8 @@ use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\LoginController;
 use App\Http\Controllers\Api\DeviceController;
 use App\Http\Controllers\ChatController;
+use App\Mail\Otpmail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +22,11 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('auth.login');
 // });
+
+// Route::get('testmail',function(){
+//  Mail::to('khaledabdelaala2@gmail.com')->send(new Otpmail(1234));
+// });
+
 
 Route::middleware('guest')->group(function () {
     Route::get('login',[LoginController::class,'login'])->name('login');
@@ -54,6 +61,7 @@ Route::prefix('/admin')->group(function(){
         Route::match(['get','post'],'add-edit-device/{id?}',[AdminController::class,'addeditdevice']);
 
         Route::get('delete-device/{id}',[AdminController::class,'deletedevice']);
+
 
         
 

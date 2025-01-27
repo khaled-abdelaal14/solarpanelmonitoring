@@ -53,8 +53,9 @@ class BatteryController extends Controller
                         
          // today               
         $day = now()->startOfDay();
+        $endOfDay = now()->endOfDay();
         $today = BatteryReading::where('battery_id', $batteryid)
-                    ->where('created_at', '>=', $day)
+                    ->whereBetween('created_at', [$day, $endOfDay])
                     ->sum('energy_stored');
     
             
@@ -103,8 +104,9 @@ class BatteryController extends Controller
 
 
         $day = now()->startOfDay();
+        $endOfDay = now()->endOfDay();
         $today = BatteryReading::where('battery_id', $batteryid)
-                    ->where('created_at', '>=', $day)
+                    ->whereBetween('created_at', [$day, $endOfDay])
                     ->get();
         return response()->json(['today'=>$today],200);
     }
@@ -158,6 +160,149 @@ class BatteryController extends Controller
                     ->get();
         return response()->json(['thismonth'=>$thismonth],200);
     }
+
+    public function energyConsumedToday(){
+
+        $user = User::find(auth()->user()->id);
+        $device = $user->device()->first();
+
+        if (!$device) {
+            return response()->json(['error' => 'المستخدم ليس لديه جهاز'], 404);
+        }
+
+        $iddevice = $device->id;
+
+        $batteryid = Battery::where('device_id', $iddevice)->pluck('id')->first();
+        if (!$batteryid) {
+            return response()->json(['error' => 'الجهاز ليس لديه بطارية'], 404);
+        }
+
+        $startOfDay = now()->startOfDay(); 
+        $endOfDay = now()->endOfDay();     
+
+       
+        $firstReading = BatteryReading::where('battery_id', $batteryid)
+            ->whereBetween('created_at', [$startOfDay, $endOfDay])
+            ->orderBy('created_at', 'asc')
+            ->pluck('energy_stored')
+            ->first();
+
+       
+        $lastReading = BatteryReading::where('battery_id', $batteryid)
+            ->whereBetween('created_at', [$startOfDay, $endOfDay])
+            ->orderBy('created_at', 'desc')
+            ->pluck('energy_stored')
+            ->first();
+
+   
+        if (is_null($firstReading) || is_null($lastReading)) {
+            return response()->json(['error' => 'لا توجد قراءات اليوم'], 404);
+        }
+
+        $energyConsumed = $firstReading - $lastReading;
+
+        if ($energyConsumed < 0) {
+            $energyConsumed = 0;
+        }
+        
+        return response()->json(['energy_consumed_today' => $energyConsumed], 200);
+    }
+
+    public function energyConsumedThisMonth(){
+
+        $user = User::find(auth()->user()->id);
+        $device = $user->device()->first();
+
+        if (!$device) {
+            return response()->json(['error' => 'المستخدم ليس لديه جهاز'], 404);
+        }
+
+        $iddevice = $device->id;
+
+        $batteryid = Battery::where('device_id', $iddevice)->pluck('id')->first();
+        if (!$batteryid) {
+            return response()->json(['error' => 'الجهاز ليس لديه بطارية'], 404);
+        }
+
+        $startOfMonth = now()->startOfMonth(); 
+        $endOfMonth = now()->endOfMonth();   
+
+   
+        $firstReading = BatteryReading::where('battery_id', $batteryid)
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->orderBy('created_at', 'asc')
+            ->pluck('energy_stored')
+            ->first();
+
+      
+        $lastReading = BatteryReading::where('battery_id', $batteryid)
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->orderBy('created_at', 'desc')
+            ->pluck('energy_stored')
+            ->first();
+
+       
+        if (is_null($firstReading) || is_null($lastReading)) {
+            return response()->json(['error' => 'لا توجد قراءات لهذا الشهر'], 404);
+        }
+
+        $energyConsumed = $firstReading - $lastReading;
+
+        if ($energyConsumed < 0) {
+            $energyConsumed = 0;
+        }
+        
+        return response()->json(['energy_consumed_thismonth' => $energyConsumed], 200);
+    }
+
+    public function energyConsumedThisWeek(){
+
+        $user = User::find(auth()->user()->id);
+        $device = $user->device()->first();
+
+        if (!$device) {
+            return response()->json(['error' => 'المستخدم ليس لديه جهاز'], 404);
+        }
+
+        $iddevice = $device->id;
+
+        $batteryid = Battery::where('device_id', $iddevice)->pluck('id')->first();
+        if (!$batteryid) {
+            return response()->json(['error' => 'الجهاز ليس لديه بطارية'], 404);
+        }
+
+        $startOfWeek = now()->startOfWeek(); 
+        $endOfWeek = now()->endOfWeek();     
+
+      
+        $firstReading = BatteryReading::where('battery_id', $batteryid)
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->orderBy('created_at', 'asc')
+            ->pluck('energy_stored')
+            ->first();
+
+      
+        $lastReading = BatteryReading::where('battery_id', $batteryid)
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->orderBy('created_at', 'desc')
+            ->pluck('energy_stored')
+            ->first();
+
+       
+        if (is_null($firstReading) || is_null($lastReading)) {
+            return response()->json(['error' => 'لا توجد قراءات لهذا الأسبوع'], 404);
+        }
+
+        
+        $energyConsumed = $firstReading - $lastReading;
+
+        if ($energyConsumed < 0) {
+            $energyConsumed = 0;
+        }
+        
+        return response()->json(['energy_consumed_thisweek' => $energyConsumed], 200);
+    }
+
 
     
 }

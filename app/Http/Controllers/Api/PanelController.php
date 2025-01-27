@@ -95,8 +95,9 @@ class PanelController extends Controller
                         
          //average today               
         $day = now()->startOfDay();
+        $endday= now()->endOfDay();
         $today = PanelReading::where('panel_id', $panelid)
-                    ->where('created_at', '>=', $day)
+                    ->whereBetween('created_at', [$day, $endday])
                     ->sum('energy_stored');
     
             

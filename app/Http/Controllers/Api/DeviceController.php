@@ -132,10 +132,22 @@ class DeviceController extends Controller
     //     "panel_energy_produced": "250"
     // ];
 
+    // getDeviceStatus
     public function DeviceStatus($serial_number){
         $device = Device::where('serial_number', $serial_number)->first();
         if ($device) {
             return response()->json(['status' => $device->status]);
+        }
+        return response()->json(['message' => 'Device not found'], 404);
+    }
+
+    //iot 
+    public function iotChangeStatus(Request $request){
+        $device = Device::where('serial_number', $request->serial_number)->first();
+        if ($device) {
+            $device->status = $request->status;
+            $device->save();
+            return response()->json(['message' => 'Device status changed successfully'], 200);
         }
         return response()->json(['message' => 'Device not found'], 404);
     }

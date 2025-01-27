@@ -5,10 +5,12 @@ use App\Http\Controllers\Api\DeviceController;
 use App\Http\Controllers\Api\PanelController;
 use App\Http\Controllers\Api\SensorController;
 use App\Http\Controllers\Api\SubdeviceController;
+use App\Http\Controllers\Auth\ResetPawword;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\ChatController;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +35,13 @@ Route::prefix('auth')->group(function () {
     Route::post('/logout',[UserController::class, 'logout']);
     Route::post('/refresh',[UserController::class, 'refresh']);
 
+    //reset passord
+    Route::post('/forgot-password', [ResetPawword::class, 'sendResetCode']);
+
+    Route::post('/verify-reset-code', [ResetPawword::class, 'verifyResetCode']);
+    Route::post('/reset-password', [ResetPawword::class, 'resetPassword']);
+
+    
 });
 
 Route::middleware('auth:user')->group(function(){
@@ -44,6 +53,10 @@ Route::middleware('auth:user')->group(function(){
     Route::get('battery/energyreadingtoday',[BatteryController::class,'energyreadingtoday']);
     Route::get('battery/energyreadingweek',[BatteryController::class,'energyreadingweek']);
     Route::get('battery/energyreadingmonth',[BatteryController::class,'energyreadingmonth']);
+
+    Route::get('battery/energyconsumedday',[BatteryController::class,'energyConsumedToday']);
+    Route::get('battery/energyconsumedweek',[BatteryController::class,'energyConsumedThisWeek']);
+    Route::get('battery/energyconsumedmonth',[BatteryController::class,'energyConsumedThisMonth']);
     //
     Route::get('sensor',[SensorController::class,'index']);
     Route::get('panel',[PanelController::class,'index']);
