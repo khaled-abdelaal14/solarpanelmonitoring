@@ -24,15 +24,15 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="{{asset('backend/css/vertical-layout-light/style.css')}}">
   <!-- endinject -->
-  <link rel="shortcut icon" href="{{asset('backend/images/favicon.png')}}" />
+  <link rel="shortcut icon" href="{{asset('backend/images/favicon2.png')}}" />
 </head>
 <body>
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="index.html"><img src="{{asset('backend/images/logo.svg')}}" class="mr-2" alt="logo"/></a>
-        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{asset('backend/images/logo-mini.svg')}}" alt="logo"/></a>
+        <a class="navbar-brand brand-logo mr-5" href="index.html"><img src="{{asset('backend/images/logo1.png')}}" class="mr-2" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{asset('backend/images/icon.jpg')}}" alt="logo"/></a>
       </div>
       
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
@@ -67,7 +67,7 @@
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_settings-panel.html -->
-      <div class="theme-setting-wrapper">
+      {{-- <div class="theme-setting-wrapper">
         <div id="settings-trigger"><i class="ti-settings"></i></div>
         <div id="theme-settings" class="settings-panel">
           <i class="settings-close ti-close"></i>
@@ -84,7 +84,7 @@
             <div class="tiles default"></div>
           </div>
         </div>
-      </div>
+      </div> --}}
 
       <!-- partial -->
       <!-- partial:partials/_sidebar.html -->

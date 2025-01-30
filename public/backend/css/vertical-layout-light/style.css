@@ -28818,7 +28818,7 @@ div.tagsinput span.tag a {
 }
 
 .navbar .navbar-brand-wrapper .navbar-brand img {
-  max-width: 100%;
+  width: 190%;
   height: 34px;
   margin: auto;
   vertical-align: middle;
