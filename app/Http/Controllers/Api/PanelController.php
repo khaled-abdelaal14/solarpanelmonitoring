@@ -16,7 +16,7 @@ class PanelController extends Controller
   
     public function index(Request $request)
     {
-       
+       //hh
         //  $iddevice=User::find($request->user_id)->device()->first()->id;
         //  $panels=Panel::where('device_id',$iddevice)->with('panelReadings')->get();
         //  return response()->json(['panels'=>$panels],200);
