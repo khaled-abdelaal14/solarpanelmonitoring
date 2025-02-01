@@ -88,11 +88,15 @@ class PanelController extends Controller
             return response()->json(['error' => 'الجهاز ليس لديه قراءات للالواح '], 404);
         }
 
+
+
         $lastReading = PanelReading::where('panel_id', $panelid)
                         ->orderBy('created_at', 'desc')
                         ->first();
         
-                        
+        $panelcapacity = Panel::where('device_id', $iddevice)->pluck('capacity')->first();
+        $panelChargelevel=round(($lastReading->energy_stored / $panelcapacity) * 100);;
+        
          //average today               
         $day = now()->startOfDay();
         $endday= now()->endOfDay();
@@ -118,6 +122,7 @@ class PanelController extends Controller
                     ->sum('energy_stored'); 
                     
          return response()->json([
+            'panelchargelevel'=>$panelChargelevel,
             'lastread'=>$lastReading ? number_format($lastReading->energy_stored/1000,2).' KW' : 0,
             'today'=>$today ? number_format($today/1000, 2) .' KW': 0,
             'thisweek'=>$thisweek ? number_format($thisweek/1000, 2) .' KW': 0,
