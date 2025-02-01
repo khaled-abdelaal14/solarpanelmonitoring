@@ -34,6 +34,7 @@ Route::prefix('auth')->group(function () {
     Route::post('/register', [UserController::class,'register']);
     Route::post('/logout',[UserController::class, 'logout']);
     Route::post('/refresh',[UserController::class, 'refresh']);
+    Route::post('/me',[UserController::class, 'me']);
 
     //reset passord
     Route::post('/forgot-password', [ResetPawword::class, 'sendResetCode']);
