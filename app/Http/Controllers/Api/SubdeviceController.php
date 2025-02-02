@@ -68,4 +68,37 @@ class SubdeviceController extends Controller
 
 
      }
+
+     public function addsubsubDevice(Request $request){
+        $request->validate([
+            'name' => 'required|string',
+            'watt_per_hour' => 'required|integer',
+            'subdevice_id' => 'required|integer|exists:subdevices,id',
+        ]);
+
+        $device=Subsubdevice::create($request->all());
+        return response()->json([
+            'message'=>'device added successfully',
+            'device'=>$device
+        ],200);
+    }
+
+    public function updateSubSubDeviceStatus(Request $request){
+        $request->validate([
+            'status' => 'required|in:on,off',
+            'subsubdevice_id' => 'required|integer',
+        ]);
+
+        $device=Subsubdevice::where('id',$request->subsubdevice_id)->first();
+        if(!$device){
+            return response()->json(['error'=>'device not found'],404);
+        }
+        $device->update([
+            'status'=>$request->status
+        ]);
+        return response()->json([
+            'message'=>'device status updated successfully',
+            'device'=>$device
+        ],200);
+    }
 }

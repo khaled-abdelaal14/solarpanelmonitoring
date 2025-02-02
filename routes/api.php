@@ -64,6 +64,10 @@ Route::middleware('auth:user')->group(function(){
     Route::get('panel/energyreading',[PanelController::class,'energyreading']);
     Route::get('subdevices',[SubdeviceController::class,'index']);
     Route::post('subdevices/calcenergy',[SubdeviceController::class,'calcSubdeviceEnergy']);
+    Route::post('subdevices/addsubsubdevice',[SubdeviceController::class,'addsubsubDevice']);
+    Route::post('subdevices/updatesubsubdevicestatus',[SubdeviceController::class,'updateSubSubDeviceStatus']);
+
+
 
 });
 
