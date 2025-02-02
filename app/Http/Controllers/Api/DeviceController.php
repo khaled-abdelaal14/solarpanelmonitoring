@@ -54,6 +54,19 @@ class DeviceController extends Controller
     }
 
     public function store(Request $request){
+        $request->validate([
+            'serial_number' => 'required|unique:devices,serial_number',
+            'sensorname' => 'required',
+            'sensortype' => 'required',
+            'sensorvalue' => 'required|numeric',
+            'battery_serial_number' => 'required|unique:batteries,serial_number',
+            'battery_capacity' => 'required|numeric',
+            'battery_energy_stored' => 'required|numeric',
+            'battery_charge_level' => 'required|numeric',
+            'panel_model' => 'required',
+            'panel_capacity' => 'required|numeric',
+            'panel_energy_produced' => 'required|numeric',
+        ]);
         $serial_number = $request->serial_number;
         $device = Device::where('serial_number', $serial_number)->pluck('id')->first();
         if(!$device){

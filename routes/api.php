@@ -72,9 +72,11 @@ Route::middleware('auth:user')->group(function(){
 });
 
 });
-
+//iot
 Route::post('/store',[DeviceController::class,'store']);
 Route::get('/device/status/{serial_number}',[DeviceController::class,'DeviceStatus']);
+Route::get('/device/changestatusiot',[DeviceController::class,'iotChangeStatus']);
+
 
 Route::get('/panels',[PanelController::class,'index']);
 Route::post('/panels',[PanelController::class,'store']);
