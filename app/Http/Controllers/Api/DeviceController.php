@@ -74,19 +74,16 @@ class DeviceController extends Controller
 
     public function store(Request $request){
         $request->validate([
-<<<<<<< HEAD
             'serial_number' => 'required|unique:devices,serial_number',
             'sensorname' => 'required',
             'sensortype' => 'required',
             'sensorvalue' => 'required|numeric',
             'battery_serial_number' => 'required|unique:batteries,serial_number',
-=======
             'serial_number' => 'required',
             'sensorname' => 'required',
             'sensortype' => 'required',
             'sensorvalue' => 'required|numeric',
             'battery_serial_number' => 'required',
->>>>>>> 2019523 ( commit)
             'battery_capacity' => 'required|numeric',
             'battery_energy_stored' => 'required|numeric',
             'battery_charge_level' => 'required|numeric',
