@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\BatteryController;
+use App\Http\Controllers\Api\BatteryNotificationController;
 use App\Http\Controllers\Api\DeviceController;
 use App\Http\Controllers\Api\PanelController;
 use App\Http\Controllers\Api\SensorController;
@@ -35,6 +36,7 @@ Route::prefix('auth')->group(function () {
     Route::post('/logout',[UserController::class, 'logout']);
     Route::post('/refresh',[UserController::class, 'refresh']);
     Route::post('/me',[UserController::class, 'me']);
+    Route::post('/fcmtoken',[UserController::class, 'saveFcmToken']);
 
     //reset passord
     Route::post('/forgot-password', [ResetPawword::class, 'sendResetCode']);
@@ -48,6 +50,7 @@ Route::prefix('auth')->group(function () {
 Route::middleware('auth:user')->group(function(){
     Route::get('device',[DeviceController::class,'index']);
     Route::post('device/toggle',[DeviceController::class,'toggleDeviceStatus']);
+    Route::get('device/notoficatin',[DeviceController::class,'getUserNotification']);
     // battery
     Route::get('battery',[BatteryController::class,'index']);
     Route::get('battery/energyreading',[BatteryController::class,'energyreading']);
@@ -95,5 +98,6 @@ Route::post('/askk', [ChatController::class, 'askQuestion']);
 
 
 
+Route::post('/check-battery', [BatteryNotificationController::class, 'checkBatteryLevel']);
 
 

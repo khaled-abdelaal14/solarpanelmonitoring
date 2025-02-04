@@ -11,12 +11,31 @@ use App\Models\PanelReading;
 use App\Models\Sensor;
 use App\Models\SensorReading;
 use App\Models\User;
+use App\Models\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\Notification;
 
 class DeviceController extends Controller
 {
+
+    private $messaging;
+    
+    public function __construct()
+    {
+        // Initialize Firebase
+        $factory = (new Factory)
+            ->withServiceAccount(storage_path('app/firebase-credentials.json'))
+            ->withProjectId('alsooq-online-0x1');
+            
+        $this->messaging = $factory->createMessaging();
+    }
+    
+
+    
     public function index(){
         $user = User::find(auth()->user()->id);
         $device = $user->device()->first();
@@ -55,11 +74,19 @@ class DeviceController extends Controller
 
     public function store(Request $request){
         $request->validate([
+<<<<<<< HEAD
             'serial_number' => 'required|unique:devices,serial_number',
             'sensorname' => 'required',
             'sensortype' => 'required',
             'sensorvalue' => 'required|numeric',
             'battery_serial_number' => 'required|unique:batteries,serial_number',
+=======
+            'serial_number' => 'required',
+            'sensorname' => 'required',
+            'sensortype' => 'required',
+            'sensorvalue' => 'required|numeric',
+            'battery_serial_number' => 'required',
+>>>>>>> 2019523 ( commit)
             'battery_capacity' => 'required|numeric',
             'battery_energy_stored' => 'required|numeric',
             'battery_charge_level' => 'required|numeric',
@@ -70,9 +97,18 @@ class DeviceController extends Controller
         ]);
         $serial_number = $request->serial_number;
         $device = Device::where('serial_number', $serial_number)->pluck('id')->first();
-        if(!$device){
+        $userDevice = Device::with('user')->where('serial_number', $serial_number)->first();
+        
+        
+
+        if(!$userDevice){
             return response()->json(['message' => 'Device not found'], 404);
+        }else{
+            
+            $device_token = $userDevice->user->fcm_token;
+
         }
+        
         try{
             DB::beginTransaction();
 
@@ -106,7 +142,7 @@ class DeviceController extends Controller
 
             //panel
             $panel = Panel::updateorCreate([
-                'serial_number' => $request->panel_model,
+                'model' => $request->panel_model,
                 'capacity' => $request->panel_capacity,
                 'status' => 1,
                 'device_id' => $device
@@ -117,14 +153,60 @@ class DeviceController extends Controller
 
             ]);
 
+            //notfication
+            if($request->battery_charge_level<25){
+                $message = CloudMessage::withTarget('token', $device_token)
+                    ->withNotification(Notification::create(
+                        'Battery Level Alert',
+                        "Battery level is critically low: {$request->battery_charge_level}%"
+                    ))
+                    ->withData(['battery_level' => (string)$request->battery_charge_level]);
+                
+                // Send notification
+                $this->messaging->send($message);
+                $alertbattery = 'Battery level is critically low: '.$request->battery_charge_level.'%';
+                Alert::create([
+                    'device_id' => $device,
+                    'message' => $alertbattery,
+                    'alert_type' => 'Battery Level Alert'
+                    
+                ]);
+
+                if($request->sensorvalue>50){
+                    $messagesensor = CloudMessage::withTarget('token', $device_token)
+                    ->withNotification(Notification::create(
+                        'Sensor Alert',
+                        "Sensor value is critically high: {$request->sensorvalue}"
+                    ))
+                    ->withData(['sensor_value' => (string)$request->sensorvalue]);
+                    //send notification
+                    $this->messaging->send($messagesensor);
+                    $alertsensor = 'Sensor value is critically high: '.$request->sensorvalue;
+                    Alert::create([
+                        'device_id' => $device,
+                        'message' => $alertsensor,
+                        'alert_type' => 'Sensor Alert'
+                        
+                    ]);
+                    
+                }
+            }
+
             DB::commit();
-            return response()->json(['message' => 'Stored successfully'], 200);
+            return response()->json([
+                'message' => 'Stored successfully',
+                'alertbattery' => $alertbattery??'no alert battery',
+                'alertsensor' => $alertsensor??'no alert sensor'
+            ], 200);
 
             
 
         }catch(\Exception $e){
             DB::rollBack();
-            return response()->json(['message' => 'Failed to store '], 500);
+            return response()->json([
+                'message' => 'Failed to store ',
+                'error' => $e->getMessage()
+            ], 500);
         }
 
         //
@@ -164,6 +246,20 @@ class DeviceController extends Controller
             return response()->json(['message' => 'Device status changed successfully'], 200);
         }
         return response()->json(['message' => 'Device not found'], 404);
+    }
+
+    public function getUserNotification(){
+        $user = User::find(auth()->user()->id);
+        $device = $user->device()->first();
+
+        if ($device) {
+            $iddevice = $device->id;
+            
+        } else {
+            return response()->json(['error' => 'المستخدم ليس لديه جهاز  '], 404);
+        }
+        $notification = Alert::where('device_id', $iddevice)->get();
+        return response()->json(['notification'=>$notification],200);
     }
 
     

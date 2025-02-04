@@ -113,6 +113,23 @@ class UserController extends Controller
         ]);
     }
 
+    public function saveFcmToken(Request $request)
+    {
+        $request->validate([
+            'fcm_token' => 'required|string',
+        ]);
+
+        $user = Auth::user();
+        $user->fcm_token = $request->fcm_token;
+        $user->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'FCM token saved successfully',
+            'user' => $user,
+        ]);
+    }
+
 
 
 }

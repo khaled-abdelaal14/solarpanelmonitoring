@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 
 class BatteryController extends Controller
 {
+    
+
+
     public function index(){
         $user = User::find(auth()->user()->id);
         $device = $user->device()->first();
@@ -77,6 +80,7 @@ class BatteryController extends Controller
                     
          return response()->json([
             'lastread'=>$lastReading ? number_format($lastReading->energy_stored/1000).' KW' : 0,
+            'chage_level'=>$lastReading ? $lastReading->charge_level : 0,
             'today'=>$today ? number_format($today/1000, 2) .' KW': 0,
             'thisweek'=>$thisweek ? number_format($thisweek/1000, 2) .' KW': 0,
             'thismonth'=>$thismonth ? number_format($thismonth/1000, 2) .'KW' : 0,
