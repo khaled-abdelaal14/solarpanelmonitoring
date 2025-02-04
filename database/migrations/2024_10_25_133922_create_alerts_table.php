@@ -17,7 +17,6 @@ class CreateAlertsTable extends Migration
             $table->id();
             $table->string('alert_type'); // نوع التنبيه (مثل: "Battery Low", "Sensor Failure")
             $table->text('message'); // رسالة التنبيه
-            $table->boolean('resolved')->default(false); // هل تم حل التنبيه؟
             $table->foreignId('device_id')->nullable()->constrained('devices')->onDelete('cascade'); // الجهاز المعني
             $table->timestamps();
         });

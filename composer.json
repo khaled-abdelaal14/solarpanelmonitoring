@@ -12,11 +12,11 @@
         "google/auth": "^1.42",
         "google/cloud-dialogflow": "^1.15",
         "guzzlehttp/guzzle": "^7.9",
+        "kreait/laravel-firebase": "^4.2",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "tymon/jwt-auth": "^1.0@dev"
-        
     },
     "require-dev": {
         "facade/ignition": "^2.5",

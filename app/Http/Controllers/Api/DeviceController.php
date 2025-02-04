@@ -66,6 +66,7 @@ class DeviceController extends Controller
             'panel_model' => 'required',
             'panel_capacity' => 'required|numeric',
             'panel_energy_produced' => 'required|numeric',
+            'status' => 'required|in:on,off'
         ]);
         $serial_number = $request->serial_number;
         $device = Device::where('serial_number', $serial_number)->pluck('id')->first();
@@ -76,7 +77,7 @@ class DeviceController extends Controller
             DB::beginTransaction();
 
             Device::where('serial_number', $serial_number)->update([
-                'status' => 'on'
+                'status' => $request->status
             ]);
 
             //sensor
