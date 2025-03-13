@@ -130,6 +130,27 @@ class UserController extends Controller
         ]);
     }
 
+    public function changeUserInformation(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'city' => 'required|string|max:100',
+            'phone'=> 'required|numeric|digits:11|unique:users,phone,'.Auth::id(),
+        ]);
+
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->phone = $request->phone;
+        $user->city = $request->city;
+        $user->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User information updated successfully',
+            'user' => $user,
+        ]);
+    }
+
 
 
 }
