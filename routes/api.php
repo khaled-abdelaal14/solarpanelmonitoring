@@ -81,6 +81,7 @@ Route::get('/device/status/{serial_number}',[DeviceController::class,'DeviceStat
 Route::post('/device/changestatusiot',[DeviceController::class,'iotChangeStatus']);
 
 
+
 Route::get('/panels',[PanelController::class,'index']);
 Route::post('/panels',[PanelController::class,'store']);
 Route::put('panels/{panel}',[PanelController::class,'update']);
