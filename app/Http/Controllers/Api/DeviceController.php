@@ -80,6 +80,7 @@ class DeviceController extends Controller
             'sensorvalue' => 'required|numeric',
             'battery_serial_number' => 'required|unique:batteries,serial_number',
             'sensorname' => 'required',
+            //2 
             'sensortype' => 'required',
             'sensorvalue' => 'required|numeric',
             'battery_serial_number' => 'required',
