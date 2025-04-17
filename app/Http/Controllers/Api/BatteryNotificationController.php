@@ -17,7 +17,7 @@ class BatteryNotificationController extends Controller
         // Initialize Firebase
         $factory = (new Factory)
             ->withServiceAccount(storage_path('app/firebase-credentials.json'))
-            ->withProjectId('alsooq-online-0x1');
+            ->withProjectId('final-project-011x');
             
         $this->messaging = $factory->createMessaging();
     }
