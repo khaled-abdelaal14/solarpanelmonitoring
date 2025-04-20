@@ -130,7 +130,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function changeUserInformation(Request $request)
+    public function updateProfile(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
