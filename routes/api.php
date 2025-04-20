@@ -38,6 +38,7 @@ Route::prefix('auth')->group(function () {
     Route::post('/me',[UserController::class, 'me']);
     Route::post('/fcmtoken',[UserController::class, 'saveFcmToken']);
     Route::post('/updateprofile',[UserController::class, 'updateProfile']);
+    Route::post('/updatepassword',[UserController::class, 'updatePassword']);
 
     //reset passord
     Route::post('/forgot-password', [ResetPawword::class, 'sendResetCode']);
