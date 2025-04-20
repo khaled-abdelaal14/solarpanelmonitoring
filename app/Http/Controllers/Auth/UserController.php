@@ -136,12 +136,23 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'city' => 'required|string|max:100',
             'phone'=> 'required|numeric|digits:11|unique:users,phone,'.Auth::id(),
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+      
 
         $user = Auth::user();
         $user->name = $request->name;
         $user->phone = $request->phone;
         $user->city = $request->city;
+
+        if ($request->hasFile('image')) {
+            $destination = 'user/photos';
+            $image = $request->file('image');
+            $image_name = $image->getClientOriginalName();
+        
+            $path = $image->storeAs($destination, $image_name, 'public');
+            $user->image = 'storage/' . $path;
+        }
         $user->save();
 
         return response()->json([

@@ -65,4 +65,9 @@ class User extends Authenticatable implements JWTSubject
     public function admin(){
         return $this->belongsTo(Admin::class);
     }
+
+    public function getImageAttribute($value)
+    {
+        return $value ? asset($value) :  asset('storage/admin/photos/default.png');
+    }
 }
