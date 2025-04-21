@@ -44,14 +44,15 @@ class BatteryController extends Controller
             return response()->json(['error' => 'المستخدم ليس لديه جهاز  '], 404);
         }
 
-        $batteryid = Battery::where('device_id', $iddevice)->pluck('id')->first();
+        $batteryid = Battery::where('device_id', $iddevice)->pluck('id');
         if(!$batteryid){
             return response()->json(['error' => 'الجهاز ليس لديه بطارية '], 404);
         }
 
-        $lastReading = BatteryReading::where('battery_id', $batteryid)
-                        ->orderBy('created_at', 'desc')
-                        ->first();
+        $lastReading = BatteryReading::whereIn('battery_id', $batteryid)
+                    ->orderBy('created_at', 'desc')
+                    ->first();
+                        
         
                         
          // today               
