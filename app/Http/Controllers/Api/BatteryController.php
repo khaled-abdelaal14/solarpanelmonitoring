@@ -79,11 +79,11 @@ class BatteryController extends Controller
                     ->sum('energy_stored'); 
                     
          return response()->json([
-            'lastread'=>$lastReading ? number_format($lastReading->energy_stored/1000).' KW' : 0,
+            'lastread'=>$lastReading ? number_format($lastReading->energy_stored/1000) : 0,
             'chage_level'=>$lastReading ? $lastReading->charge_level : 0,
-            'today'=>$today ? number_format($today/1000, 2) .' KW': 0,
-            'thisweek'=>$thisweek ? number_format($thisweek/1000, 2) .' KW': 0,
-            'thismonth'=>$thismonth ? number_format($thismonth/1000, 2) .'KW' : 0,
+            'today'=>$today ? number_format($today/1000, 2) : 0,
+            'thisweek'=>$thisweek ? number_format($thisweek/1000, 2) : 0,
+            'thismonth'=>$thismonth ? number_format($thismonth/1000, 2)  : 0,
          ],200);           
          
         

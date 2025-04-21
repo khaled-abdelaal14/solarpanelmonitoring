@@ -33,7 +33,7 @@ class BatteryNotificationController extends Controller
         $batteryLevel = $request->battery_level;
         $deviceToken = $request->device_token;
         
-        // Check if battery level is low (e.g., below 20%)
+        // Check if battery level is low 
         if ($batteryLevel < 20) {
             try {
                 // Create notification message
