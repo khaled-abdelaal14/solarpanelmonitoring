@@ -83,14 +83,14 @@ class PanelController extends Controller
             return response()->json(['error' => 'المستخدم ليس لديه جهاز  '], 404);
         }
 
-        $panelid = Panel::where('device_id', $iddevice)->pluck('id')->first();
-        if(!$panelid){
+        $panelids = Panel::where('device_id', $iddevice)->pluck('id');
+        if(!$panelids){
             return response()->json(['error' => 'الجهاز ليس لديه قراءات للالواح '], 404);
         }
 
 
 
-        $lastReading = PanelReading::where('panel_id', $panelid)
+        $lastReading = PanelReading::whereIn('panel_id', $panelids)
                         ->orderBy('created_at', 'desc')
                         ->first();
         
@@ -100,7 +100,7 @@ class PanelController extends Controller
          //average today               
         $day = now()->startOfDay();
         $endday= now()->endOfDay();
-        $today = PanelReading::where('panel_id', $panelid)
+        $today = PanelReading::whereIn('panel_id', $panelids)
                     ->whereBetween('created_at', [$day, $endday])
                     ->sum('energy_stored');
     
@@ -110,14 +110,14 @@ class PanelController extends Controller
         $weekStart = now()->startOfWeek();
         $weekEnd = now()->endOfWeek();
 
-        $thisweek = PanelReading::where('panel_id', $panelid)
+        $thisweek = PanelReading::whereIn('panel_id', $panelids)
                 ->whereBetween('created_at', [$weekStart, $weekEnd])
                 ->sum('energy_stored');
 
         //month        
         $monthStart = now()->startOfMonth();
         $monthEnd = now()->endOfMonth();
-        $thismonth = PanelReading::where('panel_id', $panelid)
+        $thismonth = PanelReading::whereIn('panel_id', $panelids)
                     ->whereBetween('created_at', [$monthStart, $monthEnd])
                     ->sum('energy_stored'); 
                     
