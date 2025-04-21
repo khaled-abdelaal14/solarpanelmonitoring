@@ -123,10 +123,10 @@ class PanelController extends Controller
                     
          return response()->json([
             'panelchargelevel'=>$panelChargelevel,
-            'lastread'=>$lastReading ? number_format($lastReading->energy_stored/1000,2) : 0,
-            'today'=>$today ? number_format($today/1000, 2) : 0,
-            'thisweek'=>$thisweek ? number_format($thisweek/1000, 2) : 0,
-            'thismonth'=>$thismonth ? number_format($thismonth/1000, 2)  : 0,
+            'lastread'=>$lastReading ? round($lastReading->energy_stored/1000,2) : 0,
+            'today'=>$today ? round($today/1000, 2) : 0,
+            'thisweek'=>$thisweek ? round($thisweek/1000, 2) : 0,
+            'thismonth'=>$thismonth ? round($thismonth/1000, 2)  : 0,
          ],200);           
          
         
