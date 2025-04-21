@@ -44,12 +44,12 @@ class BatteryController extends Controller
             return response()->json(['error' => 'المستخدم ليس لديه جهاز  '], 404);
         }
 
-        $batteryid = Battery::where('device_id', $iddevice)->pluck('id');
-        if(!$batteryid){
+        $batteryIds = Battery::where('device_id', $iddevice)->pluck('id');
+        if(!$batteryIds){
             return response()->json(['error' => 'الجهاز ليس لديه بطارية '], 404);
         }
 
-        $lastReading = BatteryReading::whereIn('battery_id', $batteryid)
+        $lastReading = BatteryReading::whereIn('battery_id', $batteryIds)
                     ->orderBy('created_at', 'desc')
                     ->first();
                         
@@ -58,9 +58,9 @@ class BatteryController extends Controller
          // today               
         $day = now()->startOfDay();
         $endOfDay = now()->endOfDay();
-        $today = BatteryReading::where('battery_id', $batteryid)
-                    ->whereBetween('created_at', [$day, $endOfDay])
-                    ->sum('energy_stored');
+        $today = BatteryReading::whereIn('battery_id', $batteryIds)
+        ->whereBetween('created_at', [$day, $endOfDay])
+        ->sum('energy_stored');
     
             
         
@@ -68,23 +68,23 @@ class BatteryController extends Controller
         $weekStart = now()->startOfWeek();
         $weekEnd = now()->endOfWeek();
 
-        $thisweek = BatteryReading::where('battery_id', $batteryid)
-                ->whereBetween('created_at', [$weekStart, $weekEnd])
-                ->sum('energy_stored');
+        $thisWeek = BatteryReading::whereIn('battery_id', $batteryIds)
+        ->whereBetween('created_at', [$weekStart, $weekEnd])
+        ->sum('energy_stored');
 
         //month        
         $monthStart = now()->startOfMonth();
         $monthEnd = now()->endOfMonth();
-        $thismonth = BatteryReading::where('battery_id', $batteryid)
-                    ->whereBetween('created_at', [$monthStart, $monthEnd])
-                    ->sum('energy_stored'); 
+        $thisMonth = BatteryReading::whereIn('battery_id', $batteryIds)
+        ->whereBetween('created_at', [$monthStart, $monthEnd])
+        ->sum('energy_stored');
                     
          return response()->json([
             'lastread'=>$lastReading ? round($lastReading->energy_stored/1000,2) : 0,
             'chage_level'=>$lastReading ? $lastReading->charge_level : 0,
             'today'=>$today ? round($today/1000, 2) : 0,
-            'thisweek'=>$thisweek ? round($thisweek/1000, 2) : 0,
-            'thismonth'=>$thismonth ? round($thismonth/1000, 2)  : 0,
+            'thisweek'=>$thisWeek ? round($thisWeek/1000, 2) : 0,
+            'thismonth'=>$thisMonth ? round($thisMonth/1000, 2)  : 0,
          ],200);           
          
         
