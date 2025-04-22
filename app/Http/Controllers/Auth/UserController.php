@@ -136,7 +136,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'city' => 'required|string|max:100',
             'phone'=> 'required|numeric|digits:11|unique:users,phone,'.Auth::id(),
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120', 
         ]);
       
 
