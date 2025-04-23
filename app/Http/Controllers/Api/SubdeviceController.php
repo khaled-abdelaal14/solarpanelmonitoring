@@ -101,4 +101,34 @@ class SubdeviceController extends Controller
             'device'=>$device
         ],200);
     }
+    public function updateSubSubDeviceHasDevice(Request $request){
+        $request->validate([
+            'has_device' => 'required|in:yes,no',
+            'subsubdevice_id' => 'required|integer',
+        ]);
+
+        $device=Subsubdevice::where('id',$request->subsubdevice_id)->first();
+        if(!$device){
+            return response()->json(['error'=>'device not found'],404);
+        }
+        $device->update([
+            'has_device'=>$request->has_device
+        ]);
+        return response()->json([
+            'message'=>'device has_device updated successfully',
+            'device'=>$device
+        ],200);
+    }
+
+    public function getSubSubDevices(){
+        $SubSubDevices=Subsubdevice::where('has_device','yes')->get();
+        if($SubSubDevices->isEmpty()){
+            return response()->json(['message'=>'No devices for User'], 404);
+        }
+        return response()->json([
+            'message'=>'SubSubDevices for User',
+            'SubSubDevices'=>$SubSubDevices
+        ],200);
+
+    }
 }

@@ -72,6 +72,10 @@ Route::middleware('auth:user')->group(function(){
     Route::post('subdevices/addsubsubdevice',[SubdeviceController::class,'addsubsubDevice']);
     Route::post('subdevices/updatesubsubdevicestatus',[SubdeviceController::class,'updateSubSubDeviceStatus']);
 
+    //subsubdevices
+    Route::get('subsubdevices',[SubdeviceController::class,'getSubSubDevices']);
+    Route::post('subdevices/updatesubsubdevicehasdevice',[SubdeviceController::class,'updateSubSubDeviceHasDevice']);
+
 
 
 });

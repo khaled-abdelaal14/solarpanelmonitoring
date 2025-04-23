@@ -16,8 +16,10 @@ class CreateSubsubdevicesTable extends Migration
         Schema::create('subsubdevices', function (Blueprint $table) {
             $table->id();
             $table->string('name');             
-            $table->integer('watt_per_hour'); // معدل الطاقة المستهلك
-            $table->enum ('status',['on','off'])->default('off'); // حالة الجهاز
+            $table->integer('watt_per_hour'); 
+            $table->enum ('status',['on','off'])->default('off'); 
+            $table->enum ('has_device',['yes','no'])->default('no'); 
+
             $table->foreignId('subdevice_id')->references('id')->on('subdevices')->cascadeOnDelete();
             $table->timestamps();
         });
