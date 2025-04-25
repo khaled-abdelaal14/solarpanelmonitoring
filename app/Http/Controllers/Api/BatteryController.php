@@ -102,15 +102,15 @@ class BatteryController extends Controller
             return response()->json(['error' => 'المستخدم ليس لديه جهاز  '], 404);
         }
 
-        $batteryid = Battery::where('device_id', $iddevice)->pluck('id')->first();
-        if(!$batteryid){
+        $batteryIds = Battery::where('device_id', $iddevice)->pluck('id');
+        if(!$batteryIds){
             return response()->json(['error' => 'الجهاز ليس لديه بطارية '], 404);
         }
 
 
         $day = now()->startOfDay();
         $endOfDay = now()->endOfDay();
-        $today = BatteryReading::where('battery_id', $batteryid)
+        $today = BatteryReading::whereIn('battery_id', $batteryIds)
                     ->whereBetween('created_at', [$day, $endOfDay])
                     ->get();
         return response()->json(['today'=>$today],200);
@@ -128,14 +128,14 @@ class BatteryController extends Controller
             return response()->json(['error' => 'المستخدم ليس لديه جهاز  '], 404);
         }
 
-        $batteryid = Battery::where('device_id', $iddevice)->pluck('id')->first();
-        if(!$batteryid){
+        $batteryIds = Battery::where('device_id', $iddevice)->pluck('id');
+        if(!$batteryIds){
             return response()->json(['error' => 'الجهاز ليس لديه بطارية '], 404);
         }
         
         $weekStart = now()->startOfWeek();
         $weekEnd = now()->endOfWeek();
-        $thisweek = BatteryReading::where('battery_id', $batteryid)
+        $thisweek = BatteryReading::whereIn('battery_id', $batteryIds)
                 ->whereBetween('created_at', [$weekStart, $weekEnd])
                 ->get();
         return response()->json(['thisweek'=>$thisweek],200);
@@ -153,14 +153,14 @@ class BatteryController extends Controller
             return response()->json(['error' => 'المستخدم ليس لديه جهاز  '], 404);
         }
 
-        $batteryid = Battery::where('device_id', $iddevice)->pluck('id')->first();
-        if(!$batteryid){
+        $batteryIds = Battery::where('device_id', $iddevice)->pluck('id');
+        if(!$batteryIds){
             return response()->json(['error' => 'الجهاز ليس لديه بطارية '], 404);
         }
         
         $monthStart = now()->startOfMonth();
         $monthEnd = now()->endOfMonth();
-        $thismonth = BatteryReading::where('battery_id', $batteryid)
+        $thismonth = BatteryReading::whereIn('battery_id', $batteryIds)
                     ->whereBetween('created_at', [$monthStart, $monthEnd])
                     ->get();
         return response()->json(['thismonth'=>$thismonth],200);
@@ -177,8 +177,8 @@ class BatteryController extends Controller
 
         $iddevice = $device->id;
 
-        $batteryid = Battery::where('device_id', $iddevice)->pluck('id')->first();
-        if (!$batteryid) {
+        $batteryIds = Battery::where('device_id', $iddevice)->pluck('id');
+        if (!$batteryIds) {
             return response()->json(['error' => 'الجهاز ليس لديه بطارية'], 404);
         }
 
@@ -186,14 +186,14 @@ class BatteryController extends Controller
         $endOfDay = now()->endOfDay();     
 
        
-        $firstReading = BatteryReading::where('battery_id', $batteryid)
+        $firstReading = BatteryReading::whereIn('battery_id', $batteryIds)
             ->whereBetween('created_at', [$startOfDay, $endOfDay])
             ->orderBy('created_at', 'asc')
             ->pluck('energy_stored')
             ->first();
 
        
-        $lastReading = BatteryReading::where('battery_id', $batteryid)
+        $lastReading = BatteryReading::whereIn('battery_id', $batteryIds)
             ->whereBetween('created_at', [$startOfDay, $endOfDay])
             ->orderBy('created_at', 'desc')
             ->pluck('energy_stored')
@@ -224,8 +224,8 @@ class BatteryController extends Controller
 
         $iddevice = $device->id;
 
-        $batteryid = Battery::where('device_id', $iddevice)->pluck('id')->first();
-        if (!$batteryid) {
+        $batteryIds = Battery::where('device_id', $iddevice)->pluck('id');
+        if (!$batteryIds) {
             return response()->json(['error' => 'الجهاز ليس لديه بطارية'], 404);
         }
 
@@ -233,14 +233,14 @@ class BatteryController extends Controller
         $endOfMonth = now()->endOfMonth();   
 
    
-        $firstReading = BatteryReading::where('battery_id', $batteryid)
+        $firstReading = BatteryReading::whereIn('battery_id', $batteryIds)
             ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
             ->orderBy('created_at', 'asc')
             ->pluck('energy_stored')
             ->first();
 
       
-        $lastReading = BatteryReading::where('battery_id', $batteryid)
+        $lastReading = BatteryReading::whereIn('battery_id', $batteryIds)
             ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
             ->orderBy('created_at', 'desc')
             ->pluck('energy_stored')
@@ -271,8 +271,8 @@ class BatteryController extends Controller
 
         $iddevice = $device->id;
 
-        $batteryid = Battery::where('device_id', $iddevice)->pluck('id')->first();
-        if (!$batteryid) {
+        $batteryIds = Battery::where('device_id', $iddevice)->pluck('id');
+        if (!$batteryIds) {
             return response()->json(['error' => 'الجهاز ليس لديه بطارية'], 404);
         }
 
@@ -280,14 +280,14 @@ class BatteryController extends Controller
         $endOfWeek = now()->endOfWeek();     
 
       
-        $firstReading = BatteryReading::where('battery_id', $batteryid)
+        $firstReading = BatteryReading::whereIn('battery_id', $batteryIds)
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->orderBy('created_at', 'asc')
             ->pluck('energy_stored')
             ->first();
 
       
-        $lastReading = BatteryReading::where('battery_id', $batteryid)
+        $lastReading = BatteryReading::whereIn('battery_id', $batteryIds)
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->orderBy('created_at', 'desc')
             ->pluck('energy_stored')
