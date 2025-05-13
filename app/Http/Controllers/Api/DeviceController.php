@@ -64,6 +64,28 @@ class DeviceController extends Controller
         $device = Device::where('serial_number', $request->serial_number)->first();
         if ($device) {
             $device->status = $status;
+            $device->mode = 'manual';
+            $device->save();
+
+            return response()->json(['message' => $message], 200);
+        }
+
+        return response()->json(['message' => 'Device not found'], 404);
+    }
+    public function toggleDeviceMode(Request $request){
+ 
+        if($request->mode=="manual"){
+            $mode='manual';
+            $message = 'Device mode is manual and notified IoT';
+        }else{
+            $mode='auto';
+            $message = 'Device mode is auto and notified IoT';
+
+        }
+
+        $device = Device::where('serial_number', $request->serial_number)->first();
+        if ($device) {
+            $device->mode = $mode;
             $device->save();
 
             return response()->json(['message' => $message], 200);
@@ -229,7 +251,10 @@ class DeviceController extends Controller
     public function DeviceStatus($serial_number){
         $device = Device::where('serial_number', $serial_number)->first();
         if ($device) {
-            return response()->json(['status' => $device->status]);
+            return response()->json([
+                'status' => $device->status,
+                'mode' => $device->mode,
+            ]);
         }
         return response()->json(['message' => 'Device not found'], 404);
     }

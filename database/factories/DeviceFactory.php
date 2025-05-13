@@ -14,6 +14,7 @@ class DeviceFactory extends Factory
         return [
             'serial_number' => $this->faker->uuid,
             'status' => $this->faker->randomElement(['on', 'off']),
+            'mode' => 'auto',
             'ip_address' => $this->faker->ipv4,
             'user_id' => User::inRandomOrder()->first()->id ,
         ];

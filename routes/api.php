@@ -52,6 +52,7 @@ Route::prefix('auth')->group(function () {
 Route::middleware('auth:user')->group(function(){
     Route::get('device',[DeviceController::class,'index']);
     Route::post('device/toggle',[DeviceController::class,'toggleDeviceStatus']);
+    Route::post('device/togglemode',[DeviceController::class,'toggleDeviceMode']);
     Route::get('device/notoficatin',[DeviceController::class,'getUserNotification']);
     // battery
     Route::get('battery',[BatteryController::class,'index']);

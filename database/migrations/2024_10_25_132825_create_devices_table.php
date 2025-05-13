@@ -17,10 +17,13 @@ class CreateDevicesTable extends Migration
             $table->id();
             $table->string('serial_number')->unique();
             $table->enum('status',['on','off'])->default('off');
+            $table->enum('mode',['auto','manual'])->default('auto');        
             $table->string('ip_address')->nullable();
             $table->foreignId('user_id')->nullable()->constrained('users')->unique()->nullonDelete()->cascadeOnUpdate();
 
             $table->timestamps();
+          
+                  
         });
     }
 
